@@ -30,14 +30,6 @@ class Tasks extends CI_Controller {
         $this->load->view('createTask');
         $this->load->view('includes/footer');
     }
-
-    public function criarTarefa() {
-        $this->load->view('includes/header');
-        $this->load->view('includes/menu');
-        $this->load->view('createTask');
-        $this->load->view('includes/footer');
-    }
-
     public function cadastrarTarefa() {
 
         $this->load->model('Tasks_model', 'tasks');
@@ -106,28 +98,6 @@ class Tasks extends CI_Controller {
         $this->load->view('login');
        
     }
-    public function logar(){
-		
-		$userName = $this->input->post('userName');
-		$senha = $this->input->post('senha');
-		
-		$this->db->where('senha',$senha);
-		$this->db->where('userName',$userName);
-		$this->db->where('status',1);
-		$data['usuario'] = $this->db->get('usuarios')->result();
-		
-		if(count($data['usuario'])==1){
-			$dados['nomeUsuario'] = $data['usuario'][0]->nomeUsuario;
-			$dados['idUsuario'] = $data['usuario'][0]->idUsuario;
-			$dados['logado'] = true;
-			$this->session->set_userdata($dados);
-			redirect('home');
-		}else{
-			redirect('home/login');
-		}
-          
-          
-             
-	}
+   
 
 }

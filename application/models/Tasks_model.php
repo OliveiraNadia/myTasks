@@ -11,18 +11,26 @@ class Tasks_model extends CI_Model {
 
     function cadastrarTarefa() {
 
-        $data['nomeTarefa'] = $this->input->post('nomeTarefa');
+        $data['email'] = $this->input->post('email');
         $data['tituloTarefa'] = $this->input->post('tituloTarefa');
         $data['dataInicialTarefa'] = $this->input->post('dataInicialTarefa');
         $data['dataFinalTarefa'] = $this->input->post('dataFinalTarefa');
         $data['descricaoTarefa'] = $this->input->post('descricaoTarefa');
-        // $data['anexosTarefa'] = $this->input->post('anexosTarefa');
+        $data['anexosTarefa'] = $this->input->post('anexosTarefa');
+        $data['idStatus'] = $this->input->post('idStatus');
 
 
         return $this->db->insert('tb_tarefas', $data);
     }
+    	public function getStatus(){
 
-    public function salvarTarefa() {
+	$this->db->select( 'tb_tarefas.*, idStatus.idStatus AS status' );
+        $this->db->join( 'tb_status', 'tb_status.idStatus=idStatus.Status_id', 'LEFT' );
+        $this->db->order_by( 'idStatus.id', 'DESC' );
+       	return $this->db->get( 'tb_tarefas' )->result_array();
+        }
+        
+        public function salvarTarefa() {
 
         $this->db->select('*');
         return $this->db->get('tb_status')->result();
@@ -47,12 +55,12 @@ class Tasks_model extends CI_Model {
 
         $id = $this->input->post('idTarefa');
 
-        $data['nomeTarefa'] = $this->input->post('nomeTarefa');
+       $data['email'] = $this->input->post('email');
         $data['tituloTarefa'] = $this->input->post('tituloTarefa');
         $data['dataInicialTarefa'] = $this->input->post('dataInicialTarefa');
         $data['dataFinalTarefa'] = $this->input->post('dataFinalTarefa');
         $data['descricaoTarefa'] = $this->input->post('descricaoTarefa');
-        $data['statustarefa'] = $this->input->post('status');
+       // $data['anexosTarefa'] = $this->input->post('anexosTarefa');
 
         $this->db->where('idStatus', $id);
 
@@ -67,20 +75,9 @@ class Tasks_model extends CI_Model {
     public function get_tasks_like() {
         $termo = $this->input->post('pesquisar');
         $this->db->select('*');
-        $this->db->like('nomeTarefa', $termo);
-        // PESQUISAR POR STATUS $this->db->like('nomeTarefa', $termo); 
+        $this->db->like('idStatus', $termo);
         return $this->db->get('tb_tarefas')->result();
     }
-
-    public function get_status() {
-        $this->db->select('status, COUNT(*) AS qtd');
-        $this->db->group_by('status');
-        $this->db->order_by('status', 'ASC');
-
-        $q = $this->db->get('Pedidos');
-        return $q->result_array();
-    }
-
     public function get_qtd_tasks() {
         $this->db->select('COUNT(*) AS total');
         return $this->db->get('tb_tarefas')->result();
@@ -99,31 +96,6 @@ class Tasks_model extends CI_Model {
         return $this->db->update('tb_status', $data);
     }
 
-    public function get_ColetaStatus() {
-        $this->db->select('coleta, COUNT(*) AS qtd');
-        $this->db->group_by('coleta');
-        $this->db->order_by('coleta', 'ASC');
 
-        $q = $this->db->get('Pedidos');
-        return $q->result_array();
-    }
-
-    public function get_andamento() {
-        $this->db->select('status, COUNT(*) AS qtd');
-        $this->db->group_by('status');
-        $this->db->order_by('status', 'ASC');
-
-        $q = $this->db->get('Pedidos');
-        return $q->result_array();
-    }
-
-    public function get_recebido() {
-        $this->db->select('status, COUNT(*) AS qtd');
-        $this->db->group_by('status');
-        $this->db->order_by('status', 'ASC');
-
-        $q = $this->db->get('Pedidos');
-        return $q->result_array();
-    }
 
 }

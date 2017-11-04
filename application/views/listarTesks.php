@@ -37,12 +37,14 @@
                                         <tr>
                                             
                                            <td><?= $tarefa->idTarefa; ?></td>
-                                            <td><?= $tarefa->nomeTarefa; ?></td>
-                                            <td><?= $tarefa->tituloTarefa; ?></td>
-                                            <td><?= $tarefa->dataInicialTarefa; ?></td>
-                                            <td><?= $tarefa->dataFinalTarefa; ?></td>
+                                            <td><?= $tarefa->email; ?></td>
+                                            <td><?= $tarefa->tituloTarefa; ?></td>           
+                                            <td><?= date( 'd/m/Y', strtotime( $tarefa->dataInicialTarefa ) ); ?></td>
+                                            <td><?= date( 'd/m/Y', strtotime( $tarefa->dataFinalTarefa ) ); ?></td>
                                             <td><?= $tarefa->descricaoTarefa; ?></td>
                                             <td><?= $tarefa->anexosTarefa; ?></td>
+                                            <td><?= $tarefa->idStatus ==1?'Done':'Aberto'; ?></td>
+                                           
                                             
                                             <td><a href="<?= base_url('tasks/atualizar/' . $tarefa->idTarefa) ?>"
                                                    class="btn btn-primary btn-sm dropdown-toggle btn-group">Atualizar</a></td>                             
